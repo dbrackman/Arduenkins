@@ -6,7 +6,7 @@ BuildLightConfigurationManager::BuildLightConfigurationManager() {
   uint8_t server[] = {192,168,0,1};
 }
 
-BuildLightConfigurationManager::BuildLightConfigurationManager(uint8_t configIp[], uint16_t configPort, EthernetClient *client, char *configurationLocation) {
+BuildLightConfigurationManager::BuildLightConfigurationManager(uint8_t configIp[], uint16_t configPort, EthernetClient *client, const char *configurationLocation) {
   _ip[0] = configIp[0];
   _ip[1] = configIp[1];
   _ip[2] = configIp[2];
@@ -15,7 +15,7 @@ BuildLightConfigurationManager::BuildLightConfigurationManager(uint8_t configIp[
   _port = configPort;
   
   Serial.print(F("Config IP saved as "));
-  char buffer[16] = {NULL};
+  char buffer[16] = {(char)NULL};
   printIp(_ip, buffer);
   Serial.print(buffer);
   Serial.println();
@@ -140,7 +140,7 @@ int BuildLightConfigurationManager::initializeConfiguration(){
   }
   
   char * configResponse = (char *)malloc(sizeof(char)*MAX_CONFIG_LINE_LENGTH+1);
-  configResponse[MAX_CONFIG_LINE_LENGTH] = NULL;
+  configResponse[MAX_CONFIG_LINE_LENGTH] = (char)NULL;
   int position = 0;
   
   for(;;){
@@ -148,7 +148,7 @@ int BuildLightConfigurationManager::initializeConfiguration(){
   	if (_client->available()) {
       char nextChar = _client->read();
       if(nextChar == '\n'){
-        configResponse[position++] = NULL;
+        configResponse[position++] = (char)NULL;
 #ifdef DEBUG_JENKINS_CLIENT  
         Serial.print(F("Found a job configuration: "));
         Serial.println(configResponse);

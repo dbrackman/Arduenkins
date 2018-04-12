@@ -13,7 +13,7 @@ class BuildLightConfigurationManager
 {
 public:
   BuildLightConfigurationManager();
-  BuildLightConfigurationManager(uint8_t ip[], uint16_t port, EthernetClient *client, char *configurationLocation);
+  BuildLightConfigurationManager(uint8_t ip[], uint16_t port, EthernetClient *client, const char *configurationLocation);
   int initializeConfiguration();
   uint16_t getStatusForProject(int jobNumber);
   
@@ -26,7 +26,7 @@ private:
   EthernetClient *_client;
   uint8_t _ip[4];
   uint16_t _port;
-  char *_configurationLocation;
+  const char *_configurationLocation;
   
   JenkinsJob * _jobs[MAX_SUPPORTED_JOBS];
   int _numConfiguredJobs;

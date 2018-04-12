@@ -44,7 +44,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #define UNSTABLE 3
 #define CANCELED 7
 #define DISABLED 6
-char* knownColors[]={  "red", "green", "blue", "yellow", "cyan", "magenta", "off", "aborted" };
+const char* knownColors[]={  "red", "green", "blue", "yellow", "cyan", "magenta", "off", "aborted" };
 int components[][3]={  RED,  GREEN, BLUE, YELLOW, CYAN, MAGENTA, OFF, WHITE };
 
 // initialize the library instance:

@@ -73,7 +73,7 @@ uint16_t JenkinsClient::getStatusForLocation(uint8_t ip[], uint16_t port, char *
   
   //assuming that the project name won't have a } in it.
   int bytesRead = client->readBytesUntil('}',status,30);
-  status[bytesRead] = NULL;
+  status[bytesRead] = (char)NULL;
 #ifdef DEBUG_JENKINS_CLIENT  
   Serial.println(status);
 #endif

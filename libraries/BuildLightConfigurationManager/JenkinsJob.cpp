@@ -34,7 +34,7 @@ void JenkinsJob::addJobLocation(const char *jobLocation) {
   uint8_t length = strlen(jobLocation);
   m_jobLocations[m_numJobLocations] = (char *)malloc(sizeof(char)*length+1);
   strncpy(m_jobLocations[m_numJobLocations], jobLocation, length);
-  m_jobLocations[m_numJobLocations][length] = NULL;
+  m_jobLocations[m_numJobLocations][length] = (char)NULL;
   Serial.print(F("Added job location "));
   Serial.print(m_jobLocations[m_numJobLocations]);
   Serial.print(F(" to position "));
@@ -44,7 +44,7 @@ void JenkinsJob::addJobLocation(const char *jobLocation) {
 }
 
 void JenkinsJob::printJob() {
-  char buffer[16] = {NULL};
+  char buffer[16] = {(char)NULL};
   printIp(m_ip, buffer);
   Serial.print(buffer);
   Serial.print(F(":"));
