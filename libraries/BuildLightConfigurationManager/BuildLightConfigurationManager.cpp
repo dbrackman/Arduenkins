@@ -115,6 +115,7 @@ int BuildLightConfigurationManager::initializeConfiguration(){
   Serial.println(_configurationLocation);
 #endif
   
+  // Assume config server still supports HTTP/0.9
   if (_client->connect(_ip, _port)) {
 #ifdef DEBUG_JENKINS_CLIENT  
     Serial.print(F("connected\n"));;

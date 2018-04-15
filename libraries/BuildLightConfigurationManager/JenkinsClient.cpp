@@ -25,11 +25,14 @@ uint16_t JenkinsClient::getStatusForJob(JenkinsJob * job, EthernetClient * clien
 uint16_t JenkinsClient::getStatusForLocation(uint8_t ip[], uint16_t port, char *location, EthernetClient *client){
   uint16_t disposition = 0;
 
+  char ip_string[16] = {(char)NULL};
+  printIp(ip, ip_string);
+
 #ifdef DEBUG_JENKINS_CLIENT  
-  char buffer[16] = {(char)NULL};
-  printIp(ip, buffer);
-  Serial.print(buffer);
   Serial.print(F("Making request to IP:"));
+  Serial.print(ip_string);
+  Serial.print(F(":"));
+  Serial.print(port);
   Serial.println();
 #endif
 
@@ -40,12 +43,27 @@ uint16_t JenkinsClient::getStatusForLocation(uint8_t ip[], uint16_t port, char *
     // Make a HTTP request:
     Serial.print(F("GET "));
     Serial.print(location);
-    Serial.println(JENKINS_POST_JOB_URL);
+    Serial.print(JENKINS_POST_JOB_URL);
+    Serial.println(F(" HTTP/1.0"));
+    Serial.print(F("Host: "));
+    Serial.print(ip_string);
+    Serial.print(F(":"));
+    Serial.println(port);
+    Serial.println(F("User-Agent: Arduino"));
+    Serial.println(F("Accept: */*"));
 #endif
 
     client->print("GET ");
     client->print(location);
-    client->println(JENKINS_POST_JOB_URL);
+    client->print(JENKINS_POST_JOB_URL);
+    client->println(" HTTP/1.0");
+    client->print(F("Host: "));
+    client->print(ip_string);
+    client->print(F(":"));
+    client->println(port);
+    client->println(F("User-Agent: Arduino"));
+    client->println(F("Accept: */*"));
+    client->println();
   } 
   else {
     // if you didn't get a connection to the server:
@@ -60,6 +78,22 @@ uint16_t JenkinsClient::getStatusForLocation(uint8_t ip[], uint16_t port, char *
     //wait
   }
   
+  //We are expecting something like this on the wire:
+/*
+HTTP/1.1 200 OK
+Date: Sun, 15 Apr 2018 14:12:35 GMT
+X-Content-Type-Options: nosniff
+Set-Cookie: JSESSIONID.90b3d1dd=node0am2eegk7zxku11bqkqg8j2gse47.node0;Path=/;HttpOnly
+Expires: Thu, 01 Jan 1970 00:00:00 GMT
+X-Jenkins: 2.112
+X-Jenkins-Session: 50216c0f
+Content-Type: application/json;charset=utf-8
+Content-Length: 57
+Server: Jetty(9.4.z-SNAPSHOT)
+
+{status: "_class":"hudson.model.FreeStyleProject","color":"blue"}
+*/
+
   //now read until we encounter the first {
   char tmp = ' ';
   while(client->connected() && tmp != '{') {
