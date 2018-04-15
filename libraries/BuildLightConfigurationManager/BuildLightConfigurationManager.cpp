@@ -107,7 +107,7 @@ int BuildLightConfigurationManager::initializeConfiguration(){
 
 #ifdef DEBUG_JENKINS_CLIENT  
   Serial.print(F("Requesting configuration from http://"));
-  char buffer[16] = {NULL};
+  char buffer[16] = {(char)NULL};
   printIp(_ip, buffer);
   Serial.print(buffer);
   Serial.print(F(":"));

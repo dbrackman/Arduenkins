@@ -27,7 +27,7 @@ uint16_t JenkinsClient::getStatusForLocation(uint8_t ip[], uint16_t port, char *
 
 #ifdef DEBUG_JENKINS_CLIENT  
   Serial.print(F("Making request to  IP:"));
-  char buffer[16] = {NULL};
+  char buffer[16] = {(char)NULL};
   printIp(ip, buffer);
   Serial.print(buffer);
   Serial.println();
