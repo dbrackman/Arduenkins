@@ -26,10 +26,10 @@ uint16_t JenkinsClient::getStatusForLocation(uint8_t ip[], uint16_t port, char *
   uint16_t disposition = 0;
 
 #ifdef DEBUG_JENKINS_CLIENT  
-  Serial.print(F("Making request to  IP:"));
   char buffer[16] = {(char)NULL};
   printIp(ip, buffer);
   Serial.print(buffer);
+  Serial.print(F("Making request to IP:"));
   Serial.println();
 #endif
 
@@ -65,6 +65,9 @@ uint16_t JenkinsClient::getStatusForLocation(uint8_t ip[], uint16_t port, char *
   while(client->connected() && tmp != '{') {
   	if(client->available()){
   	  tmp = client->read();
+#ifdef DEBUG_JENKINS_CLIENT  
+      Serial.print(tmp);
+#endif
   	}
   }
   
@@ -74,7 +77,8 @@ uint16_t JenkinsClient::getStatusForLocation(uint8_t ip[], uint16_t port, char *
   //assuming that the _class name won't have a } in it.
   int bytesRead = client->readBytesUntil('}',status,75);
   status[bytesRead] = (char)NULL;
-#ifdef DEBUG_JENKINS_CLIENT  
+#ifdef DEBUG_JENKINS_CLIENT
+  Serial.print(F("status: "));
   Serial.println(status);
 #endif
   client->flush();

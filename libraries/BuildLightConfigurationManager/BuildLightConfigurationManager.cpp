@@ -121,6 +121,7 @@ int BuildLightConfigurationManager::initializeConfiguration(){
     // Make a HTTP request:
     Serial.print(F("GET "));
     Serial.print(_configurationLocation);
+    Serial.println();
 #endif
 
     _client->print("GET ");

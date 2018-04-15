@@ -219,7 +219,7 @@ void loop()
         //we succeeded without hitting the max count, so allow the failureCount to reset
         doWorkaround(failure, &failureCount);
       }
-      Serial.print(F("Status received from client"));
+      Serial.print(F("Status received from client:"));
       Serial.println(status, BIN);
       if(status != JOB_INVALID_STATUS){
         int indexOfColorToUse = DISABLED;
