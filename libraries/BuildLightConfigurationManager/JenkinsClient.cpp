@@ -68,11 +68,11 @@ uint16_t JenkinsClient::getStatusForLocation(uint8_t ip[], uint16_t port, char *
   	}
   }
   
-  char status[31] = {'\0'};
+  char status[76] = {'\0'};
   int pos = 0;
   
-  //assuming that the project name won't have a } in it.
-  int bytesRead = client->readBytesUntil('}',status,30);
+  //assuming that the _class name won't have a } in it.
+  int bytesRead = client->readBytesUntil('}',status,75);
   status[bytesRead] = (char)NULL;
 #ifdef DEBUG_JENKINS_CLIENT  
   Serial.println(status);
@@ -86,22 +86,23 @@ uint16_t JenkinsClient::getStatusForLocation(uint8_t ip[], uint16_t port, char *
   client->stop();
   
   char prefix[] = "\"color\":\"";
+  char *color = '\0';
   
-  if(!strncmp(status, prefix, strlen(prefix))==0){
+  if((color=strstr(status, prefix))==0){
     return JOB_INVALID_STATUS;
   }
   
-  disposition |= (strstr(status, "disabled") != NULL) ? JOB_DISABLED : 0;
-  disposition |= (strstr(status, "blue") != NULL) ? JOB_SUCCEEDED : 0;
-  disposition |= (strstr(status, "red") != NULL) ? JOB_FAILED : 0;
-  disposition |= (strstr(status, "yellow") != NULL) ? JOB_UNSTABLE : 0;
-  disposition |= (strstr(status, "grey") != NULL) ? JOB_CANCELED : 0;
-  disposition |= (strstr(status, "aborted") != NULL) ? JOB_CANCELED : 0;
-  disposition |= (strstr(status, "anime") != NULL) ? JOB_IN_PROGRESS : 0;
+  disposition |= (strstr(color, "disabled") != NULL) ? JOB_DISABLED : 0;
+  disposition |= (strstr(color, "blue") != NULL) ? JOB_SUCCEEDED : 0;
+  disposition |= (strstr(color, "red") != NULL) ? JOB_FAILED : 0;
+  disposition |= (strstr(color, "yellow") != NULL) ? JOB_UNSTABLE : 0;
+  disposition |= (strstr(color, "grey") != NULL) ? JOB_CANCELED : 0;
+  disposition |= (strstr(color, "aborted") != NULL) ? JOB_CANCELED : 0;
+  disposition |= (strstr(color, "anime") != NULL) ? JOB_IN_PROGRESS : 0;
   
 #ifdef DEBUG_JENKINS_CLIENT  
   Serial.print(F("Found status: "));
-  Serial.println(status);
+  Serial.println(color);
   Serial.print(F("Mapped to disposition: "));
   Serial.println(disposition, BIN);
 #endif
