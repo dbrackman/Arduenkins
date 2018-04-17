@@ -91,7 +91,7 @@ Content-Type: application/json;charset=utf-8
 Content-Length: 57
 Server: Jetty(9.4.z-SNAPSHOT)
 
-{status: "_class":"hudson.model.FreeStyleProject","color":"blue"}
+{"_class":"hudson.model.FreeStyleProject","color":"blue"}
 */
 
   //now read until we encounter the first {
