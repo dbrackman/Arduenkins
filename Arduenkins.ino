@@ -124,8 +124,9 @@ void initializeEthernet() {
 
 void setup()
 {
-  wdt_init();
-  wdt_disable();
+  if(ENABLE_WATCHDOG){
+    wdt_enable(WDTO_8S);
+  }
   
   Serial.begin(9600);
   while (!Serial){
@@ -254,6 +255,9 @@ void loop()
   if(ENABLE_WATCHDOG){
     wdt_reset();
   }
+
+  //Test watchdog timer, just before performing the second refresh.
+  //if (cyclesBeforeRefresh < 5) { while (1); } //simulate Arduino lockup
 }
 
 // Function Implementation
